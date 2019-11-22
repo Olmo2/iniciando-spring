@@ -1,6 +1,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<h1>Bievenido</h1>
-<p th:text= " 'Tu nombre es' + ${nombre} + ' Bienvenido'"> </p>
-<p th:text="${edad}"></p>
+
+<h1> Bienvenido aquí una Tabla de autores</h1>
+
+
+<table border ="1">
+      <tr>
+      	<th>Id</th>
+        <th>Nombre</th>
+        <th>Nacionalidad</th>
+        <th></th>
+        
+        
+      </tr>
+      <tr th:each="autor : ${autores}">
+      <td th:text="${autor.id}"></td>
+        <td th:text="${autor.nombre}"></td>
+        <td th:text="${autor.nacionalidad}"></td>
+        
+      </tr>
+    </table>
+    
+    <!-- 
+<ol>
+	<li th:each="autor : ${autores}" th:text="${autor.nombre}+ ' ' +${autor.nacionalidad}">
+	
+	</li>
+	
+
+	
+</ol>
+ -->
 
 </html>

@@ -1,22 +1,39 @@
 package com.olmo.iniciandoSpring.rutas;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.olmo.iniciandoSpring.beans.AutorBean;
+import com.olmo.iniciandoSpring.beans.ListaAutores;
+
 @Controller
 public class RutasBasicas {
-
-	@GetMapping("/start/{nombre}/{edad}")
-	public String rutaBasicaInicial(@PathVariable String nombre,
-									@PathVariable Integer edad,
-									Model model) {
-		model.addAttribute("nombre",nombre);
-		model.addAttribute("edad",edad);
+	
+	
+	//@GetMapping("/start/{nombre}/{edad}") @PathVariable String nombre,
+	//@PathVariable Integer edad,
+	@GetMapping("/start")
+	public String rutaBasicaInicial(Model model) {
+		
+		List<AutorBean> listaAutores = ListaAutores.construirLista();
+		model.addAttribute("autores",listaAutores);
 
 		return "respuesta";
+		
+	}
+	
+	@GetMapping("/autores/{id}")
+	public String verAutor(@PathVariable Integer id,
+							Model model) {
+		
+		AutorBean autor = ListaAutores.getAutor(id);
+		model.addAttribute("autor",autor);
+		return "autor";
 		
 	}
 	
