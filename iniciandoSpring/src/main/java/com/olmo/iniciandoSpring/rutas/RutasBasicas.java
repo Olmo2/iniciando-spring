@@ -15,13 +15,16 @@ import com.olmo.iniciandoSpring.beans.ListaAutores;
 public class RutasBasicas {
 	
 	
+	
+	
 	//@GetMapping("/start/{nombre}/{edad}") @PathVariable String nombre,
 	//@PathVariable Integer edad,
 	@GetMapping("/start")
 	public String rutaBasicaInicial(Model model) {
 		
-		List<AutorBean> listaAutores = ListaAutores.construirLista();
-		model.addAttribute("autores",listaAutores);
+//		List<AutorBean> listaAutores = ListaAutores.construirLista();
+		
+		model.addAttribute("autores",ListaAutores.getLista());
 
 		return "respuesta";
 		
@@ -31,7 +34,7 @@ public class RutasBasicas {
 	public String verAutor(@PathVariable Integer id,
 							Model model) {
 		
-		AutorBean autor = ListaAutores.getAutor(id);
+		AutorBean autor = ListaAutores.getLista().get(id);
 		model.addAttribute("autor",autor);
 		return "autor";
 		
