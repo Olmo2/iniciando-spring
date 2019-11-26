@@ -48,9 +48,12 @@ public class RutasBasicas {
 		return "cero";
 	}
 	
-	@GetMapping("/olmo")
-	public String rutaOlmo() {
-		System.out.println("Olmo ha llegado");
-		return "hola";
+	@GetMapping("/borrar/{id}")
+	public String rutaBorrar( @PathVariable Integer id,
+			Model model) {
+		System.out.println("He llegado");
+		ListaAutores.del(id);
+		model.addAttribute("autores",ListaAutores.getLista());
+		return "respuesta";
 	}
 }

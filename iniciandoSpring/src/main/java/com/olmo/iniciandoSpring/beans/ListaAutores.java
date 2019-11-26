@@ -30,7 +30,7 @@ public class ListaAutores {
 	
 	private ListaAutores() {
 		 lista = new ArrayList<AutorBean>();
-		 construirLista(lista);
+		 construirLista();
 	}
 	
 	
@@ -46,7 +46,7 @@ public static ArrayList<AutorBean> getLista() {
 
 	
 
-	public static List<AutorBean> construirLista(ArrayList<AutorBean>lista){
+	public List<AutorBean> construirLista(){
 		
 		
 		
@@ -79,7 +79,6 @@ public static ArrayList<AutorBean> getLista() {
 		Random r = new Random();
 		int num = 0;
 		
-		boolean usado;
 		while(used.contains(num)) {
 			num= r.nextInt(100-1) + 1;
 		}
@@ -87,11 +86,44 @@ public static ArrayList<AutorBean> getLista() {
 		
 		return num;
 		
-		
-		
-		
 	}
 	
+	
+	
+public static void del(int idBuscado) {
+		
+		int dondeEsta = buscarDondeEsta(idBuscado);
+		if(dondeEsta>=0) {
+			
+			lista.remove(dondeEsta);
+		}
+	}
+	
+public static AutorBean getAutor(int idBuscado) {
+		
+		int dondeEsta = buscarDondeEsta(idBuscado);
+		if(dondeEsta>=0) {
+			
+			return lista.get(dondeEsta);
+		}
+		else return null;
+	}
+	
+private static int buscarDondeEsta(int idBuscado) {
+		
+		boolean encontrado = false;
+		
+		int indice = 0;
+		while((!encontrado)&&(indice<lista.size())) {
+			
+			if(lista.get(indice).getId()==idBuscado) {
+				
+				encontrado = true;
+			}
+			else indice ++;
+		}
+		if(encontrado) return indice; else return -1;
+	}
 	
 }
 
