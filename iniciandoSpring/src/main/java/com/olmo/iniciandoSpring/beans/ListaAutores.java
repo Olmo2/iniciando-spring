@@ -5,79 +5,34 @@ import java.util.List;
 import java.util.Random;
 
 
-/*private static EntityManager entityManager = null;
-	
-	private ConnectionEntityManager() {
-		
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("com.olmo.biblioteca.H2");
-		entityManager = entityManagerFactory.createEntityManager();
-	}
-	
-	
-	public static EntityManager getEntityManager() {
-		
-		if(entityManager==null) {
-			
-			new ConnectionEntityManager();
-		}
-		return entityManager;
-	}
-	*/
-
-public class ListaAutores {
+public class ListaAutores  {
 
 	private static ArrayList<AutorBean> lista = null;
+	private static ListaAutores listaAutores =null;
 	
 	private ListaAutores() {
+		
 		 lista = new ArrayList<AutorBean>();
-		 construirLista();
+	
 	}
 	
 	
-public static ArrayList<AutorBean> getLista() {
-		
-		if(lista==null) {
-			
-			new ListaAutores();
-		}
-		return lista;
-	}
+
+
+public List<AutorBean> getDatos(){
+	
+	return lista;
+}
 	
 
 	
 
-	public List<AutorBean> construirLista(){
-		
-		
-		
-		AutorBean olmo = new AutorBean();
-		olmo.setId(random());
-		olmo.setNombre("olmo");
-		olmo.setNacionalidad("Española");
-		getLista().add(olmo);
-		
-		AutorBean paco = new AutorBean();
-		paco.setId(random());
-		paco.setNombre("paco");
-		paco.setNacionalidad("Española");
-		getLista().add(paco);
-		
-		AutorBean antonio = new AutorBean();
-		antonio.setId(random());
-		antonio.setNombre("antonio");
-		antonio.setNacionalidad("Española");
-		getLista().add(antonio);
-		
-		return lista;
-		
-	}
+	static List<Integer> used =  new ArrayList<Integer>();
 	
 	
-	private static Integer random() {
-		List<Integer> used =  new ArrayList<Integer>();
-		used.add(0);
+	private static  Integer random() {
 		Random r = new Random();
-		int num = 0;
+		int num = r.nextInt(100-1) + 1;
 		
 		while(used.contains(num)) {
 			num= r.nextInt(100-1) + 1;
@@ -90,7 +45,7 @@ public static ArrayList<AutorBean> getLista() {
 	
 	
 	
-public static void del(int idBuscado) {
+public  void del(int idBuscado) {
 		
 		int dondeEsta = buscarDondeEsta(idBuscado);
 		if(dondeEsta>=0) {
@@ -99,7 +54,7 @@ public static void del(int idBuscado) {
 		}
 	}
 	
-public static AutorBean getAutor(int idBuscado) {
+public  AutorBean getAutor(int idBuscado) {
 		
 		int dondeEsta = buscarDondeEsta(idBuscado);
 		if(dondeEsta>=0) {
@@ -109,7 +64,7 @@ public static AutorBean getAutor(int idBuscado) {
 		else return null;
 	}
 	
-private static int buscarDondeEsta(int idBuscado) {
+private  int buscarDondeEsta(int idBuscado) {
 		
 		boolean encontrado = false;
 		
@@ -124,6 +79,43 @@ private static int buscarDondeEsta(int idBuscado) {
 		}
 		if(encontrado) return indice; else return -1;
 	}
+
+
+public static ListaAutores getLista() {
+	
+	if(listaAutores==null) {
+		
+		listaAutores=new ListaAutores();
+	}
+	return listaAutores;
+}
+/*
+ * Añade un autor 
+ * 
+ * @param autor
+ * */
+public  void addAutor(AutorBean autor) {
+	
+	autor.setId(random());
+	lista.add(autor);
+	
+	
+}
+/*
+ * Actualiza un autor 
+ * 
+ * @param autor
+ */
+public  void updateAutor(AutorBean autor) {
+	
+	
+	int pos = buscarDondeEsta(autor.getId());
+	lista.set(pos, autor);
+	
+	
+	
+}
+
 	
 }
 

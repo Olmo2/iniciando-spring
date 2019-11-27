@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.olmo.iniciandoSpring.beans.AutorBean;
@@ -15,16 +17,19 @@ import com.olmo.iniciandoSpring.beans.ListaAutores;
 public class RutasBasicas {
 	
 	
-	
+	ListaAutores lista = ListaAutores.getLista();
 	
 	//@GetMapping("/start/{nombre}/{edad}") @PathVariable String nombre,
 	//@PathVariable Integer edad,
-	@GetMapping("/start")
+	
+	
+	
+	@GetMapping("/")
 	public String rutaBasicaInicial(Model model) {
 		
 //		List<AutorBean> listaAutores = ListaAutores.construirLista();
 		
-		model.addAttribute("autores",ListaAutores.getLista());
+		model.addAttribute("autores",lista.getDatos());
 
 		return "respuesta";
 		
@@ -34,7 +39,7 @@ public class RutasBasicas {
 	public String verAutor(@PathVariable Integer id,
 							Model model) {
 		
-		AutorBean autor = ListaAutores.getLista().get(id);
+		AutorBean autor = lista.getAutor(id);
 		model.addAttribute("autor",autor);
 		return "autor";
 		
@@ -52,8 +57,50 @@ public class RutasBasicas {
 	public String rutaBorrar( @PathVariable Integer id,
 			Model model) {
 		System.out.println("He llegado");
-		ListaAutores.del(id);
-		model.addAttribute("autores",ListaAutores.getLista());
+	
+		lista.del(id);
+		model.addAttribute("autores",lista.getDatos());
 		return "respuesta";
+	}
+	
+	@GetMapping("/nuevoAutor")
+	public String nuevoAutor(Model model) {
+		
+		model.addAttribute("autor", new AutorBean());
+		return "nuevoAutor"; // HTML del formulario nuevo autor
+		
+	}
+	
+	@PostMapping("/addAutor")
+	public String nuevoAutor(@ModelAttribute AutorBean autor) {
+		
+
+		System.out.println(autor);
+		System.out.println(lista);
+		lista.addAutor(autor);
+		
+		return "redirect:/"; // HTML del formulario nuevo autor
+		
+	}
+	
+	@GetMapping("/editarAutor/{id}")
+	public String editarAutor(@PathVariable Integer id,
+								Model model) {
+		
+		AutorBean autor = lista.getAutor(id);
+		lista.updateAutor(autor);
+	return "editarAutor";
+		
+		
+	}
+	
+	@PostMapping("/updateAutor")
+	public String updateAutor(@ModelAttribute AutorBean autor) {
+		
+		
+		lista.updateAutor(autor);
+		
+		return "redirect:/"; // HTML del formulario nuevo autor
+		
 	}
 }
